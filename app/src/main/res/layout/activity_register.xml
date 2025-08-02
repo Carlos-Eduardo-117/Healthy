@@ -1,21 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="#F0FFFF">
 
+    <!-- Fondo decorativo superior -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="top|start"
+        android:translationY="-150dp"
+        android:translationX="-150dp"
+        android:background="@drawable/top_half_circle" />
+
+    <!-- Fondo decorativo inferior -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="bottom|end"
+        android:translationY="150dp"
+        android:translationX="150dp"
+        android:background="@drawable/bottom_half_circle" />
+
+    <!-- Contenedor del formulario centrado -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
 
         <EditText
             android:id="@+id/etFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre(s)"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <EditText
             android:id="@+id/etLastName"
@@ -23,7 +47,11 @@
             android:layout_height="wrap_content"
             android:hint="Apellidos"
             android:inputType="textPersonName"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <EditText
             android:id="@+id/etEmail"
@@ -31,7 +59,11 @@
             android:layout_height="wrap_content"
             android:hint="Correo electrónico"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -39,21 +71,29 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Registrarse"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_border"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/tvGoToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¿Ya tienes cuenta? Inicia sesión"
-            android:textColor="#0000FF"
-            android:layout_marginTop="16dp" />
+            android:textColor="#EB4749"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
-</ScrollView>
+</FrameLayout>
