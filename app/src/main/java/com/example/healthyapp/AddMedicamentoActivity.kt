@@ -24,6 +24,7 @@ class AddMedicamentoActivity : AppCompatActivity() {
 
         val etNombre = findViewById<EditText>(R.id.etNombre)
         val etDosis = findViewById<EditText>(R.id.etDosis)
+        val etIntervaloHoras = findViewById<EditText>(R.id.etIntervaloHoras)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.setIs24HourView(true)
         val btnGuardar = findViewById<Button>(R.id.btnGuardar)
@@ -42,6 +43,7 @@ class AddMedicamentoActivity : AppCompatActivity() {
                     med?.let {
                         etNombre.setText(it.nombre)
                         etDosis.setText(it.dosis)
+                        etIntervaloHoras.setText(it.intervaloHoras?.toString() ?: "")
                         // Parsear hora para el TimePicker
                         val partesHora = it.hora.split(":")
                         if (partesHora.size == 2) {
@@ -67,6 +69,11 @@ class AddMedicamentoActivity : AppCompatActivity() {
 
             if (nombre.isEmpty() || dosis.isEmpty()) {
                 Toast.makeText(this, "Llena todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val intervaloHoras = etIntervaloHoras.text.toString().toIntOrNull()
+            if (intervaloHoras == null || intervaloHoras <= 0) {
+                Toast.makeText(this, "Ingresa un intervalo válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -98,7 +105,8 @@ class AddMedicamentoActivity : AppCompatActivity() {
                     val nuevoMedicamento = Medicamento(
                         nombre = nombre,
                         dosis = dosis,
-                        hora = hora
+                        hora = hora,
+                        intervaloHoras = intervaloHoras
                     )
                     dao.insertar(nuevoMedicamento)
                 } else {
@@ -107,7 +115,8 @@ class AddMedicamentoActivity : AppCompatActivity() {
                         id = medicamentoId!!,
                         nombre = nombre,
                         dosis = dosis,
-                        hora = hora
+                        hora = hora,
+                        intervaloHoras = intervaloHoras
                     )
                     dao.actualizar(medicamentoActualizado)
                 }

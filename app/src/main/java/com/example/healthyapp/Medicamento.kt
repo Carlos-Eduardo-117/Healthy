@@ -9,5 +9,6 @@ data class Medicamento(
     val nombre: String,
     val dosis: String,
     val hora: String,
+    val intervaloHoras: Int,
     val tomado: Boolean = false
 )

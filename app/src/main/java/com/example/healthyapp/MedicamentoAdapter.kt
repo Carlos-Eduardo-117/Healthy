@@ -41,20 +41,35 @@ class MedicamentoAdapter(private val lista: List<Medicamento>) :
         holder.btnConfirmar.setOnClickListener {
             val context = holder.itemView.context
             val db = AppDatabase.getDatabase(context)
-            val dao = db.tomaDao()
-
-            val toma = TomaMedicamento(
-                medicamentoId = med.id,
-                fechaHora = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
-                    Date()
-                )
-            )
+            val tomaDao = db.tomaDao()
+            val medDao = db.medicamentoDao()
 
             (context as AppCompatActivity).lifecycleScope.launch {
-                dao.registrarToma(toma)
-                Toast.makeText(context, "Toma registrada", Toast.LENGTH_SHORT).show()
+                val fechaActual = Date()
+                val formato = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val toma = TomaMedicamento(
+                    medicamentoId = med.id,
+                    fechaHora = formato.format(fechaActual)
+                )
+                tomaDao.registrarToma(toma)
+
+                val calendar = java.util.Calendar.getInstance().apply {
+                    time = fechaActual
+                    add(java.util.Calendar.HOUR_OF_DAY, med.intervaloHoras)
+                }
+                val nuevaHora = String.format("%02d:%02d", calendar.get(java.util.Calendar.HOUR_OF_DAY), calendar.get(java.util.Calendar.MINUTE))
+
+                val medActualizado = med.copy(hora = nuevaHora)
+                medDao.actualizar(medActualizado)
+
+                Toast.makeText(context, "Toma registrada. Próxima: $nuevaHora", Toast.LENGTH_SHORT).show()
+
+                (context as HomeActivity).runOnUiThread {
+                    context.cargarMedicamentos()
+                }
             }
         }
+
 
         holder.btnEditar.setOnClickListener {
             val context = holder.itemView.context

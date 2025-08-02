@@ -25,6 +25,21 @@
             android:layout_marginTop="16dp"
             android:inputType="text" />
 
+        <EditText
+            android:id="@+id/etIntervaloHoras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cada cuántas horas se toma"
+            android:inputType="number"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hora de la primera toma:"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="wrap_content"
