@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Locale
 
-class MedicamentoAdapter(private val lista: List<Medicamento>) :
+class MedicamentoAdapter(private val lista: MutableList<Medicamento>) :
     RecyclerView.Adapter<MedicamentoAdapter.MedicamentoViewHolder>() {
 
     class MedicamentoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -85,11 +85,17 @@ class MedicamentoAdapter(private val lista: List<Medicamento>) :
 
             (context as AppCompatActivity).lifecycleScope.launch {
                 dao.eliminar(med)
+
+                // Quitar de la lista y notificar
                 (context as AppCompatActivity).runOnUiThread {
-                    Toast.makeText(context, "Medicamento eliminado", Toast.LENGTH_SHORT).show() //Aqui me hace falta agregar algo pq no se elimina hasta que recargo la pantalla
+                    val pos = holder.adapterPosition
+                    lista.removeAt(pos)
+                    notifyItemRemoved(pos)
+                    Toast.makeText(context, "Medicamento eliminado", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
     }
 
     override fun getItemCount(): Int = lista.size

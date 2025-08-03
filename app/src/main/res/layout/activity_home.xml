@@ -1,26 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="#F0FFFF">
+
+    <!-- Barra superior con botones de navegación -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="0dp">
+
+        <!-- Espacio para centrar el menú -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+
+        <!-- Botón cerrar sesión -->
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/ic_logoutt"
+            android:contentDescription="Cerrar sesión"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_weight="0"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
+
+    <!-- Imagen centrada -->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="165dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/imgsintexto" />
+
+    <!-- Texto de bienvenida -->
+    <TextView
+        android:id="@+id/tvBienvenida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido!"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp" />
 
     <Button
         android:id="@+id/btnNuevoMed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="25dp"
+        android:background="@drawable/button_border"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/white"
         android:text="Registrar nuevo medicamento" />
 
     <Button
         android:id="@+id/btnHistorial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_border_second"
+        android:textColor="@color/white"
         android:text="Ver historial de tomas"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMedicamentos"

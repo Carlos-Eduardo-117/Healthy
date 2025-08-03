@@ -1,6 +1,8 @@
 package com.example.healthyapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,19 @@ class HistorialActivity : AppCompatActivity() {
         tomaDao = db.tomaDao()
         medicamentoDao = db.medicamentoDao()
 
+        // Configurar botón regresar
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            finish() // Regresa a la actividad anterior
+        }
+
+        // Configurar botón cerrar sesión
+        val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
+        btnLogout.setOnClickListener {
+            cerrarSesion()
+        }
+
+
         lifecycleScope.launch {
             val historial = tomaDao.obtenerHistorial()
             val medicamentos = medicamentoDao.obtenerTodos()
@@ -33,5 +48,13 @@ class HistorialActivity : AppCompatActivity() {
                 recyclerView.adapter = HistorialAdapter(historial, mapaNombres)
             }
         }
+    }
+
+    private fun cerrarSesion() {
+        // Regresar al login y limpiar el stack de actividades
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

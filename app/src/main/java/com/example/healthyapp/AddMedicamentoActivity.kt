@@ -1,5 +1,6 @@
 package com.example.healthyapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,22 @@ class AddMedicamentoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_medicamento)
 
+        // Crear canal de notificaciones
+        NotificationHelper.createNotificationChannel(this)
+
+        // Configurar botón regresar
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            finish() // Regresa a la actividad anterior
+        }
+
+        // Configurar botón cerrar sesión
+        val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
+        btnLogout.setOnClickListener {
+            cerrarSesion()
+        }
+
+        val tvTituloFormulario = findViewById<TextView>(R.id.tvTituloFormulario)
         val etNombre = findViewById<EditText>(R.id.etNombre)
         val etDosis = findViewById<EditText>(R.id.etDosis)
         val etIntervaloHoras = findViewById<EditText>(R.id.etIntervaloHoras)
@@ -32,7 +49,7 @@ class AddMedicamentoActivity : AppCompatActivity() {
         db = AppDatabase.getDatabase(this)
         dao = db.medicamentoDao()
 
-        //Aki es donde se recibe el medicamentoId (q es el q se va a editar)
+        //Aquí es donde se recibe el medicamentoId (q es el q se va a editar)
         val idRecibido = intent.getIntExtra("medicamentoId", -1)
         if (idRecibido != -1) {
             medicamentoId = idRecibido
@@ -57,7 +74,7 @@ class AddMedicamentoActivity : AppCompatActivity() {
                                 timePicker.currentMinute = m
                             }
                         }
-                        btnGuardar.text = "Actualizar Medicamento"
+                        tvTituloFormulario.text = "Actualizar Medicamento"
                     }
                 }
             }
@@ -100,7 +117,7 @@ class AddMedicamentoActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
-                if (medicamentoId == null) {
+                val medicamentoGuardado = if (medicamentoId == null) {
                     //Cacho para registrar
                     val nuevoMedicamento = Medicamento(
                         nombre = nombre,
@@ -108,7 +125,9 @@ class AddMedicamentoActivity : AppCompatActivity() {
                         hora = hora,
                         intervaloHoras = intervaloHoras
                     )
-                    dao.insertar(nuevoMedicamento)
+                    val id = dao.insertar(nuevoMedicamento)
+                    nuevoMedicamento.copy(id = id.toInt())
+
                 } else {
                     //Cacho para modificar
                     val medicamentoActualizado = Medicamento(
@@ -119,14 +138,34 @@ class AddMedicamentoActivity : AppCompatActivity() {
                         intervaloHoras = intervaloHoras
                     )
                     dao.actualizar(medicamentoActualizado)
+
+                    // Cancelar notificación anterior si existe
+                    NotificationHelper.cancelNotification(this@AddMedicamentoActivity, medicamentoId!!)
+                    medicamentoActualizado
                 }
 
+                // Programar notificación
+                NotificationHelper.scheduleNotification(this@AddMedicamentoActivity, medicamentoGuardado)
+
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Medicamento guardado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Medicamento guardado y notificación programada", Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
         }
+    }
+
+    private fun cerrarSesion() {
+        // Limpiar SharedPreferences
+        val prefs = getSharedPreferences("medPrefs", MODE_PRIVATE).edit()
+        prefs.clear()
+        prefs.apply()
+
+        // Regresar al login y limpiar el stack de actividades
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     // Manejo del permiso (por si el usuario responde)

@@ -1,29 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="#F0FFFF"
+    android:padding="24dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Barra superior con botones de navegación -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="0dp">
+
+            <!-- Botón regresar -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/ic_backk"
+                android:contentDescription="Regresar"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:layout_weight="0"
+                android:scaleType="centerInside" />
+
+            <!-- Espacio para centrar el menú -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+
+            <!-- Botón cerrar sesión -->
+            <ImageButton
+                android:id="@+id/btnLogout"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/ic_logoutt"
+                android:contentDescription="Cerrar sesión"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:layout_weight="0"
+                android:layout_marginStart="8dp"
+                android:scaleType="centerInside" />
+
+        </LinearLayout>
+
+        <!-- TÍTULO -->
+        <TextView
+            android:id="@+id/tvTituloFormulario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrar Medicamento"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre del medicamento"
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <EditText
             android:id="@+id/etDosis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Dosis (ej. 500mg)"
+            android:inputType="text"
             android:layout_marginTop="16dp"
-            android:inputType="text" />
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <EditText
             android:id="@+id/etIntervaloHoras"
@@ -31,27 +93,45 @@
             android:layout_height="wrap_content"
             android:hint="Cada cuántas horas se toma"
             android:inputType="number"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_border"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#888888" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hora de la primera toma:"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:timePickerMode="spinner"/>
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="@drawable/input_border"
+            android:orientation="vertical">
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar Medicamento"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:background="@drawable/button_border" />
+
     </LinearLayout>
 </ScrollView>
